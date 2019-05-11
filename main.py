@@ -1,11 +1,16 @@
 # 2019-05-12 https://www.tensorflow.org/tutorials/keras/basic_classification
 #from __future__ import absolute_import, division, print_function
-import tensorflow as tf
-import tensorflow.keras as keras
 ''' 2019-05-12
 «matplotlib.pyplot is a state-based interface to matplotlib. It provides a MATLAB-like way of plotting.»:
 https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html '''
 import matplotlib.pyplot as plt
+import tensorflow as tf
+''' 2019-05-12
+https://keras.io
+https://github.com/keras-team/keras
+https://en.wikipedia.org/wiki/Keras
+https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras '''
+import tensorflow.keras as keras
 #import numpy as np
 #print(tf.__version__)
 fashion_mnist = keras.datasets.fashion_mnist
@@ -70,3 +75,28 @@ for i in range(25):
 	plt.imshow(train_images[i], cmap=plt.cm.binary)
 	plt.xlabel(class_names[train_labels[i]])
 plt.show()
+''' 2019-05-12
+«The `Sequential` model is a linear stack of layers»:
+https://keras.io/getting-started/sequential-model-guide
+https://keras.io/models/sequential '''
+model = keras.Sequential([
+	# 2019-05-12
+	# «Flattens the input»:
+	# https://keras.io/layers/core#flatten
+	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras/layers/Flatten
+	keras.layers.Flatten(input_shape=(28, 28)),
+	# 2019-05-12
+	# «Just your regular densely-connected NN layer.
+	# Dense implements the operation:
+	# 		output = activation(dot(input, kernel) + bias)
+	# where:
+	# 	`activation` is the element-wise activation function passed as the `activation` argument,
+	# 	`kernel` is a weights matrix created by the layer,
+	# 	`bias` is a bias vector created by the layer (only applicable if `use_bias` is `True`).
+	# Note: if the input to the layer has a rank greater than 2,
+	# then it is flattened prior to the initial dot product with kernel.»
+	# https://keras.io/layers/core#dense
+	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras/layers/Dense
+	keras.layers.Dense(128, activation=tf.nn.relu),
+	keras.layers.Dense(10, activation=tf.nn.softmax)
+])
