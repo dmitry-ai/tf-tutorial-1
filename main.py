@@ -57,7 +57,13 @@ and is commonly used for looping a specific number of times in for loops».
 	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 https://docs.python.org/3.7/library/stdtypes.html#typesseq-range '''
 for i in range(25):
-	plt.subplot(5,5,i+1)
+	''' 2019-05-12
+	«Add a subplot to the current figure
+		subplot(nrows, ncols, index, **kwargs)
+	The subplot will take the `index` position on a grid with `nrows` rows and `ncols` columns.
+	`index` starts at 1 in the upper left corner and increases to the right. »		
+	https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplot.html '''
+	plt.subplot(5, 5, i+1)
 	plt.xticks([])
 	plt.yticks([])
 	plt.grid(False)
