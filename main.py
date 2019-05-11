@@ -81,9 +81,14 @@ https://keras.io/getting-started/sequential-model-guide
 https://keras.io/models/sequential '''
 model = keras.Sequential([
 	# 2019-05-12
-	# «Flattens the input»:
+	# 1) «Flattens the input»:
 	# https://keras.io/layers/core#flatten
 	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras/layers/Flatten
+	# 2) «The first layer in this network, `tf.keras.layers.Flatten`, transforms the format of the images
+	# from a 2d-array (of 28 by 28 pixels), to a 1d-array of 28 * 28 = 784 pixels.
+	# Think of this layer as unstacking rows of pixels in the image and lining them up.
+	# This layer has no parameters to learn; it only reformats the data.»
+	# https://www.tensorflow.org/tutorials/keras/basic_classification#setup_the_layers
 	keras.layers.Flatten(input_shape=(28, 28)),
 	# 2019-05-12
 	# «Just your regular densely-connected NN layer.
