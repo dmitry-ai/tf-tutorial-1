@@ -84,6 +84,7 @@ model = keras.Sequential([
 	# 1) «Flattens the input»:
 	# https://keras.io/layers/core#flatten
 	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras/layers/Flatten
+	#
 	# 2) «The first layer in this network, `tf.keras.layers.Flatten`, transforms the format of the images
 	# from a 2d-array (of 28 by 28 pixels), to a 1d-array of 28 * 28 = 784 pixels.
 	# Think of this layer as unstacking rows of pixels in the image and lining them up.
@@ -91,7 +92,7 @@ model = keras.Sequential([
 	# https://www.tensorflow.org/tutorials/keras/basic_classification#setup_the_layers
 	keras.layers.Flatten(input_shape=(28, 28)),
 	# 2019-05-12
-	# «Just your regular densely-connected NN layer.
+	# 1) «Just your regular densely-connected NN layer.
 	# Dense implements the operation:
 	# 		output = activation(dot(input, kernel) + bias)
 	# where:
@@ -102,6 +103,41 @@ model = keras.Sequential([
 	# then it is flattened prior to the initial dot product with kernel.»
 	# https://keras.io/layers/core#dense
 	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras/layers/Dense
+	#
+	# 2) After the pixels are flattened,
+	# the network consists of a sequence of two `tf.keras.layers.Dense` layers.
+	# These are densely-connected, or fully-connected, neural layers.
+	# *) The first `Dense` layer has 128 nodes (or neurons).
+	# *) The second (and last) layer is a 10-node softmax layer —
+	# this returns an array of 10 probability scores that sum to 1.
+	# Each node contains a score
+	# that indicates the probability that the current image belongs to one of the 10 classes.
+	# https://www.tensorflow.org/tutorials/keras/basic_classification#setup_the_layers
+	#
+	# 3) `tf.nn.relu`: «Computes rectified linear: max(features, 0)».
+	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/nn/relu
+	#
+	# 3) The `activation` argument specifies the activation function to apply to the output of the convolution.
+	# Here, we specify ReLU activation with tf.nn.relu.
+	# https://www.tensorflow.org/tutorials/estimators/cnn#convolutional_layer_1
+	#
+	# 4) «In artificial neural networks, the activation function of a node
+	# defines the output of that node, or "neuron," given an input or set of inputs.
+	# This output is then used as input for the next node and so on
+	# until a desired solution to the original problem is found.»:
+	# https://en.wikipedia.org/wiki/Activation_function
+	#
+	# 5) ReLU means «Rectified Linear Unit»:
+	# https://machinelearningmastery.com/rectified-linear-activation-function-for-deep-learning-neural-networks
+	#
+	# 6) «In the context of artificial neural networks,
+	# the rectifier is an activation function defined as the positive part of its argument:
+	# 		f(x) = max(0,x)
+	# A unit employing the rectifier is also called a rectified linear unit (ReLU).»
+	# https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 	keras.layers.Dense(128, activation=tf.nn.relu),
+	# 2019-05-12
+	# `tf.nn.softmax`:  «Computes softmax activations»
+	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/nn/softmax
 	keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
