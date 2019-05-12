@@ -4,6 +4,7 @@
 «matplotlib.pyplot is a state-based interface to matplotlib. It provides a MATLAB-like way of plotting.»:
 https://matplotlib.org/api/_as_gen/matplotlib.pyplot.html '''
 import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
 ''' 2019-05-12
 https://keras.io
@@ -11,7 +12,6 @@ https://github.com/keras-team/keras
 https://en.wikipedia.org/wiki/Keras
 https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/keras '''
 import tensorflow.keras as keras
-#import numpy as np
 #print(tf.__version__)
 fashion_mnist = keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -115,4 +115,47 @@ model = keras.Sequential([
 	keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-model.fit(train_images, train_labels, epochs=20)
+model.fit(train_images, train_labels, epochs=5)
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print('Test accuracy:', test_acc)
+predictions = model.predict(test_images)
+print('Predictions:', predictions)
+
+def plot_image(i, predictions_array, true_label, img):
+	predictions_array, true_label, img = predictions_array[i], true_label[i], img[i]
+	plt.grid(False)
+	plt.xticks([])
+	plt.yticks([])
+	plt.imshow(img, cmap=plt.cm.binary)
+	predicted_label = np.argmax(predictions_array)
+	if predicted_label == true_label:
+		color = 'blue'
+	else:
+		color = 'red'
+	plt.xlabel(
+		"{} {:2.0f}% ({})".format(
+			class_names[predicted_label],
+			100*np.max(predictions_array),
+			class_names[true_label]
+		),
+		color=color
+	)
+
+def plot_value_array(i, predictions_array, true_label):
+	predictions_array, true_label = predictions_array[i], true_label[i]
+	plt.grid(False)
+	plt.xticks([])
+	plt.yticks([])
+	thisplot = plt.bar(range(10), predictions_array, color="#777777")
+	plt.ylim([0, 1])
+	predicted_label = np.argmax(predictions_array)
+	thisplot[predicted_label].set_color('red')
+	thisplot[true_label].set_color('blue')
+
+i = 0
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i, predictions, test_labels, test_images)
+plt.subplot(1,2,2)
+plot_value_array(i, predictions,  test_labels)
+plt.show()
