@@ -47,35 +47,6 @@ plt.show() '''
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 ''' 2019-05-12
-«Create a new figure.
-	figsize : (float, float), optional, default: None
-		width, height in inches. 
-		If not provided, defaults to rcParams["figure.figsize"] = [6.4, 4.8].»
-https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure '''
-plt.figure(figsize=(10,10))
-''' 2019-05-12
-1) «Rather than being a function, `range` is actually an immutable sequence type»:
-https://docs.python.org/3.7/library/functions.html#func-range
-2) «The range type represents an immutable sequence of numbers
-and is commonly used for looping a specific number of times in for loops».
->>> list(range(10))
-	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-https://docs.python.org/3.7/library/stdtypes.html#typesseq-range '''
-for i in range(25):
-	''' 2019-05-12
-	«Add a subplot to the current figure
-		subplot(nrows, ncols, index, **kwargs)
-	The subplot will take the `index` position on a grid with `nrows` rows and `ncols` columns.
-	`index` starts at 1 in the upper left corner and increases to the right. »		
-	https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplot.html '''
-	plt.subplot(5, 5, i+1)
-	plt.xticks([])
-	plt.yticks([])
-	plt.grid(False)
-	plt.imshow(train_images[i], cmap=plt.cm.binary)
-	plt.xlabel(class_names[train_labels[i]])
-plt.show()
-''' 2019-05-12
 «The `Sequential` model is a linear stack of layers»:
 https://keras.io/getting-started/sequential-model-guide
 https://keras.io/models/sequential '''
@@ -137,7 +108,11 @@ model = keras.Sequential([
 	# https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
 	keras.layers.Dense(128, activation=tf.nn.relu),
 	# 2019-05-12
-	# `tf.nn.softmax`:  «Computes softmax activations»
+	# `tf.nn.softmax`:  «Computes softmax activations. This function performs the equivalent of
+	# 		softmax = tf.exp(logits) / tf.reduce_sum(tf.exp(logits), axis)
+	# »
 	# https://www.tensorflow.org/versions/r1.13/api_docs/python/tf/nn/softmax
 	keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.fit(train_images, train_labels, epochs=5)
